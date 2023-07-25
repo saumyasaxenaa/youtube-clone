@@ -22,11 +22,11 @@ export function setupDirectories() {
  * @returns A promise that resolves when the video has been converted.
  */
 
-export function convetVideo(rawVideoName: string, processedVideoName: string) {
+export function convertVideo(rawVideoName: string, processedVideoName: string) {
   return new Promise<void>((resolve, reject) => {
     ffmpeg(`{localRawVideoPath}/${rawVideoName}`)
       .outputOptions("-filter:v", "scale=360:-1") //converting the video into 360p
-      .on("end", () => {
+      .on("end", function () {
         console.log("Processing finished successfully");
         resolve();
       })
@@ -43,7 +43,7 @@ export function convetVideo(rawVideoName: string, processedVideoName: string) {
  * {@link rawVideoBucketName} bucket into the {@link localRawVideoPath} folder.
  * @returns A promise that resolves when the file has been downloaded.
  */
-export async function donwloadRawVideo(fileName: string) {
+export async function downloadRawVideo(fileName: string) {
   await storage
     .bucket(rawVideoBucketName)
     .file(fileName)
@@ -61,9 +61,11 @@ export async function donwloadRawVideo(fileName: string) {
 export async function uploadProcessedVideo(fileName: string) {
   const bucket = storage.bucket(processedVideoBucketName);
 
-  await bucket.upload(`${localProcessedVideoPath}/${fileName}`, {
-    destination: fileName,
-  });
+  await storage
+    .bucket(processedVideoBucketName)
+    .upload(`${localProcessedVideoPath}/${fileName}`, {
+      destination: fileName,
+    });
   console.log(
     `${localProcessedVideoPath}/${fileName} uploaded to gs://${processedVideoBucketName}/${fileName}.`
   );

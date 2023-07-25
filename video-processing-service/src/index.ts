@@ -1,9 +1,9 @@
 import express from "express";
 import {
-  convetVideo,
+  convertVideo,
   deleteProcessedVideo,
   deleteRawVideo,
-  donwloadRawVideo,
+  downloadRawVideo,
   setupDirectories,
   uploadProcessedVideo,
 } from "./storage";
@@ -33,11 +33,11 @@ app.post("/process-video", async (req, res) => {
   const outputFileName = `processed-${inputFileName}`;
 
   // Download the raw video from cloud storage
-  await donwloadRawVideo(inputFileName);
+  await downloadRawVideo(inputFileName);
 
   // Convert the video to 360p
   try {
-    await convetVideo(inputFileName, outputFileName);
+    await convertVideo(inputFileName, outputFileName);
   } catch (err) {
     await Promise.all([
       deleteRawVideo(inputFileName),
