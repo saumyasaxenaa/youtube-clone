@@ -24,7 +24,7 @@ export function setupDirectories() {
 
 export function convertVideo(rawVideoName: string, processedVideoName: string) {
   return new Promise<void>((resolve, reject) => {
-    ffmpeg(`{localRawVideoPath}/${rawVideoName}`)
+    ffmpeg(`${localRawVideoPath}/${rawVideoName}`)
       .outputOptions("-filter:v", "scale=360:-1") //converting the video into 360p
       .on("end", function () {
         console.log("Processing finished successfully");
@@ -34,7 +34,7 @@ export function convertVideo(rawVideoName: string, processedVideoName: string) {
         console.log(`An error occured: ${err.message}`);
         reject(err);
       })
-      .save(`{localProcessedVideoPath}/${processedVideoName}`);
+      .save(`${localProcessedVideoPath}/${processedVideoName}`);
   });
 }
 
