@@ -8,6 +8,7 @@ import SignIn from "./sign-in";
 import { onAuthStateChangedHelper } from "../firebase/firebase";
 import { useState, useEffect } from "react";
 import { User } from "firebase/auth";
+import Upload from "./upload";
 
 /**
  * React server component
@@ -38,6 +39,7 @@ export default function Navbar() {
           alt="Youtube Logo"
         />
       </Link>
+      {user && <Upload />}
       <SignIn user={user} />
     </nav>
   );
